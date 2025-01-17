@@ -1,0 +1,14 @@
+import time
+import ccxt
+
+def price_alert(pair, threshold, exchange_name):
+    exchange = getattr(ccxt, exchange_name)()
+    while True:
+        price = exchange.fetch_ticker(pair)['last']
+        if price >= threshold:
+            print(f"Alert: {pair} price is now {price}")
+            break
+        time.sleep(10)
+
+# Example usage
+price_alert('ETH/USDT', 2000, 'binance')
