@@ -1,0 +1,13 @@
+def rebalance_portfolio(current_allocations, target_allocations):
+    trades = {}
+    for token, target in target_allocations.items():
+        difference = target - current_allocations.get(token, 0)
+        if difference != 0:
+            trades[token] = difference
+    return trades
+
+# Example usage
+current = {"BTC": 0.6, "ETH": 0.2, "DOGE": 0.2}
+target = {"BTC": 0.5, "ETH": 0.3, "DOGE": 0.2}
+trades = rebalance_portfolio(current, target)
+print(trades)
