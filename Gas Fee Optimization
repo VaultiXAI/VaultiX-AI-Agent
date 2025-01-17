@@ -1,0 +1,8 @@
+def get_optimal_gas_price():
+    gas_station_url = "https://ethgasstation.info/api/ethgasAPI.json?api-key=YOUR_API_KEY"
+    response = requests.get(gas_station_url).json()
+    return response["fast"] / 10
+
+# Example usage
+gas_price = get_optimal_gas_price()
+print(f"Optimal Gas Price: {gas_price} Gwei")
