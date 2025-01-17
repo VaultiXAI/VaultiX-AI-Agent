@@ -1,0 +1,11 @@
+def get_token_balance(wallet_address, token_address, abi):
+    contract = web3.eth.contract(address=Web3.toChecksumAddress(token_address), abi=abi)
+    balance = contract.functions.balanceOf(wallet_address).call()
+    decimals = contract.functions.decimals().call()
+    return balance / (10 ** decimals)
+
+# Example usage
+wallet = "0xYourWalletAddress"
+token = "0xTokenContractAddress"
+abi = [...]  # Replace with the token's ABI
+balance = get_token_balance(wallet
