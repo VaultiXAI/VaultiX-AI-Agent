@@ -1,0 +1,26 @@
+from web3 import Web3
+from eth_account import Account
+
+def execute_trade(private_key, token_in, token_out, amount_in, router_address, abi):
+    web3 = Web3(Web3.HTTPProvider("https://mainnet.infura.io/v3/YOUR_INFURA_PROJECT_ID"))
+    account = Account.from_key(private_key)
+    router = web3.eth.contract(address=Web3.toChecksumAddress(router_address), abi=abi)
+    
+    txn = router.functions.swapExactTokensForTokens(
+        amount_in,
+        0,  # Minimum amount out
+        [token_in, token_out],
+        account.address,
+        int(web3.eth.get_block("latest")["timestamp"]) + 60
+    ).buildTransaction({
+        "from": account.address,
+        "gas": 300000,
+        "gasPrice": web3.toWei("5", "gwei"),
+        "nonce": web3.eth.getTransactionCount(account.address),
+    })
+    
+    signed_txn = web3.eth.account.sign_transaction(txn, private_key=private_key)
+    txn_hash = web3.eth.send_raw_transaction(signed_txn.rawTransaction)
+    return txn_hash.hex()
+
+# Example usage
