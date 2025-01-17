@@ -1,0 +1,10 @@
+import ccxt
+
+def get_token_price(exchange_name, pair):
+    exchange = getattr(ccxt, exchange_name)()
+    ticker = exchange.fetch_ticker(pair)
+    return ticker['last']
+
+# Example usage
+price = get_token_price('binance', 'BTC/USDT')
+print(f"BTC Price: {price}")
